@@ -22,7 +22,7 @@ jobs:
       version: ${{needs.build.outputs.version}}
 
   delivery:
-    needs: [test, build]
+    needs: [verification, build]
     uses: ./.github/workflows/delivery.yml
     with:
       version: ${{needs.build.outputs.version}}
