@@ -1,0 +1,26 @@
+name: Manual test
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'version'
+        required: true
+        type: string
+
+# Finish the test run even if there are newer changes
+#  and let new runs wait until finished.
+concurrency:
+  group: manual-${{ github.ref }}
+
+jobs: 
+  deploy-manual:
+    name: Deploy ${{inputs.version}} (manual)
+    environment: manual
+    uses: ./.github/workflows/deploy.yml
+    with:
+      version: ${{inputs.version}}
+      environment: manual
+      
+  # other jobs, like prep with test data or something
+ 

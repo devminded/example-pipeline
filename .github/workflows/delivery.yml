@@ -1,0 +1,33 @@
+name: Delivery
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'version'
+        required: true
+        type: string
+
+# Finish the delivery run even if there are newer changes
+#  and let new runs wait until finished.
+concurrency:
+  group: delivery-${{ github.ref }}
+
+
+jobs:
+  promote-staging:
+    name: Promote ${{inputs.version}}
+    uses: ./.github/workflows/deploy.yml
+    environment: staging
+    with:
+      version: ${{inputs.version}}
+      environment: staging
+        
+  promote-prod:
+    name: Promote ${{inputs.version}}
+    uses: ./.github/workflows/deploy.yml
+    environment: production
+    with:
+      version: ${{inputs.version}}
+      environment: production
+

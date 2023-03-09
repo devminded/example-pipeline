@@ -1,0 +1,28 @@
+name: Main
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    
+  manual-test:
+    needs: [build]
+    uses: ./.github/workflows/manual.yml
+    with:
+      version: ${{needs.build.outputs.version}}
+    
+  test:
+    needs: [build]
+    uses: ./.github/workflows/test.yml
+    with:
+      version: ${{needs.build.outputs.version}}
+
+  delivery:
+    needs: [test, build]
+    uses: ./.github/workflows/delivery.yml
+    with:
+      version: ${{needs.build.outputs.version}}

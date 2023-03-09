@@ -1,0 +1,63 @@
+name: Test
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'version'
+        required: true
+        type: string
+  
+# Finish the test run even if there are newer changes
+#  and let new runs wait until finished.
+# If there are many instances running the middle ones will be cancelled.
+concurrency:
+  group: test-${{ github.ref }}
+
+jobs:
+  deploy-test:
+    name: Deploy ${{inputs.version}} (test)
+    environment: test
+    uses: ./.github/workflows/deploy.yml
+    with:
+      version: ${{inputs.version}}
+      environment: test
+        
+  acceptance:
+    name: Acceptance tests
+    runs-on: ubuntu-latest
+    needs: [deploy-test]
+    strategy:
+      matrix:
+        browser: ['chrome', 'firefox', 'safari']
+    steps:
+      - name: Testing ${{ matrix.browser }}
+        run: echo "testing..." && sleep 10
+      - name: Testing more ${{ matrix.browser }}
+        run: echo "testing..." && sleep 15
+
+  deploy-perf:
+    name: Deploy ${{inputs.version}}
+    environment: perf
+    uses: ./.github/workflows/deploy.yml
+    with:
+      version: ${{inputs.version}}
+      environment: perf
+
+  performance:
+    name: Performance tests
+    runs-on: ubuntu-latest
+    needs: [deploy-perf]
+    steps:
+      - name: Testing
+        run: echo "testing..." && sleep 60
+
+  security:
+    name: Security tests
+    runs-on: ubuntu-latest
+    needs: [deploy-perf]
+    steps:
+      - name: Testing
+        run: echo "testing..." && sleep 20
+      - name: Testing more
+        run: echo "testing..." && sleep 15
