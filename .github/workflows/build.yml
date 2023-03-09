@@ -26,7 +26,6 @@ jobs:
   deploy-dev:
     needs: [build]
     uses: ./.github/workflows/deploy.yml
-    environment: dev
     with:
       version: ${{needs.build.outputs.version}}
       environment: dev

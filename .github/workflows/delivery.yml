@@ -18,7 +18,6 @@ jobs:
   promote-staging:
     name: Promote ${{inputs.version}}
     uses: ./.github/workflows/deploy.yml
-    environment: staging
     with:
       version: ${{inputs.version}}
       environment: staging
@@ -26,7 +25,6 @@ jobs:
   promote-prod:
     name: Promote ${{inputs.version}}
     uses: ./.github/workflows/deploy.yml
-    environment: production
     with:
       version: ${{inputs.version}}
       environment: production

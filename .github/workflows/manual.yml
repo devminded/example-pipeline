@@ -16,7 +16,6 @@ concurrency:
 jobs: 
   deploy-manual:
     name: Deploy ${{inputs.version}} (manual)
-    environment: manual
     uses: ./.github/workflows/deploy.yml
     with:
       version: ${{inputs.version}}

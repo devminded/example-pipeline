@@ -17,7 +17,6 @@ concurrency:
 jobs:
   deploy-test:
     name: Deploy ${{inputs.version}} (test)
-    environment: test
     uses: ./.github/workflows/deploy.yml
     with:
       version: ${{inputs.version}}
@@ -38,7 +37,6 @@ jobs:
 
   deploy-perf:
     name: Deploy ${{inputs.version}}
-    environment: perf
     uses: ./.github/workflows/deploy.yml
     with:
       version: ${{inputs.version}}

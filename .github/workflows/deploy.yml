@@ -19,9 +19,11 @@ concurrency:
 
 jobs: 
   deploy:
+    name: "Deploy ${{inputs.version}}/${{inputs.environment}}"
     runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
     steps:
       - uses: actions/checkout@v3
-      - name: Deploy to ${{inputs.environment}}
+      - name: Deploy
         run: echo "Deploying..."
         
