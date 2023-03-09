@@ -15,9 +15,9 @@ jobs:
     with:
       version: ${{needs.build.outputs.version}}
     
-  test:
+  verification:
     needs: [build]
-    uses: ./.github/workflows/test.yml
+    uses: ./.github/workflows/verification.yml
     with:
       version: ${{needs.build.outputs.version}}
 

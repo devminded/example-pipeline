@@ -24,6 +24,7 @@ jobs:
         
   promote-prod:
     name: Promote ${{inputs.version}}
+    needs: [promote-staging]
     uses: ./.github/workflows/deploy.yml
     with:
       version: ${{inputs.version}}
