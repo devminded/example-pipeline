@@ -12,11 +12,6 @@ on:
         required: true
         type: string
         
-# Finish the deployment even if there are newer changes.
-concurrency:
-  group: deploy-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs: 
   deploy:
     name: "Deploy ${{inputs.version}}/${{inputs.environment}}"
